@@ -1,20 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
-// import Foo from "./components/Foo";
-// import Description from "./components/Description";
-import Tagline from "./components/Tagline";
-// import Bar from "./components/Bar";
+
+import WorksGreat from "./components/WorksGreat";
+import DefinitelyBroke from "./components/DefinitelyBroke";
 
 function App() {
+  const [textInput, setTextInput] = useState("e.g. Stella");
   return (
     <div className="App">
-      <div className="App-header">
-        {/* <Description /> */}
-        {/* <Foo /> */}
-        <Tagline />
-        {/* <Tagline /> */}
-        {/* <Tagline /> */}
+      <div>
+        <h1>Reference equality in useEffect dependency array</h1>
+
+        <label htmlFor="title">What's a good name for a beer?</label>
+        <input
+          type="text"
+          id="title"
+          onChange={(e) => setTextInput(e.target.value)}
+          value={textInput}
+        />
       </div>
+      <WorksGreat textInput={textInput} />
+      <DefinitelyBroke textInput={textInput} />
     </div>
   );
 }

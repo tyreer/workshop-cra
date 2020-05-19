@@ -1,16 +1,12 @@
-import { useReducer, useEffect, useRef } from "react";
-import isEqual from "lodash.isequal";
+import { useReducer, useEffect } from "react";
 
-function Query({ query, children }) {
+function BrokeQuery({ query, children }) {
   const [state, setState] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     { fetching: false, data: null, error: null }
   );
 
   useEffect(() => {
-    if (isEqual(previousQuery.current, query)) {
-      return;
-    }
     setState({ fetching: true });
     fetch(query.url, query.init)
       .then((res) => {
@@ -31,12 +27,7 @@ function Query({ query, children }) {
       );
   }, [query]);
 
-  const previousQuery = useRef();
-  useEffect(() => {
-    previousQuery.current = query;
-  });
-
   return children(state);
 }
 
-export default Query;
+export default BrokeQuery;
