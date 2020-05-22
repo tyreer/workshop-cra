@@ -9,7 +9,9 @@ function App() {
   return (
     <div className="App">
       <div>
-        <h1>Reference equality in useEffect dependency array</h1>
+        <h1>
+          Why, <code>useEffect()</code>?
+        </h1>
 
         <label htmlFor="title">What's a good name for a beer?</label>
         <input
