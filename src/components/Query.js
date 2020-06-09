@@ -1,14 +1,18 @@
-import { useReducer, useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useSetState, usePrevious } from "../hooks/customHooks";
 import isEqual from "lodash.isequal";
 
 function Query({ query, children }) {
-  const [state, setState] = useReducer(
-    (state, newState) => ({ ...state, ...newState }),
-    { fetching: false, data: null, error: null }
-  );
+  const [state, setState] = useSetState({
+    fetching: false,
+    data: null,
+    error: null,
+  });
+
+  const previousQuery = usePrevious(query);
 
   useEffect(() => {
-    if (isEqual(previousQuery.current, query)) {
+    if (isEqual(previousQuery, query)) {
       return;
     }
     setState({ fetching: true });
@@ -29,11 +33,6 @@ function Query({ query, children }) {
       .catch((error) =>
         setState({ error: error.message, data: null, fetching: false })
       );
-  }, [query]);
-
-  const previousQuery = useRef();
-  useEffect(() => {
-    previousQuery.current = query;
   });
 
   return children(state);
