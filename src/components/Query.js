@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import { useSetState, usePrevious } from "../hooks/customHooks";
-import isEqual from "lodash.isequal";
+import { useSetState, useDeepCompareEffect } from "../hooks/customHooks";
 
 function useQuery({ query }) {
   const [state, setState] = useSetState({
@@ -9,13 +7,7 @@ function useQuery({ query }) {
     error: null,
   });
 
-  const previousQuery = usePrevious(query);
-
-  // TODO: Where does he create useDeepCompareEffect?
-  useEffect(() => {
-    if (isEqual(previousQuery, query)) {
-      return;
-    }
+  useDeepCompareEffect(() => {
     setState({ fetching: true });
     fetch(query.url, query.init)
       .then((res) => {
@@ -34,7 +26,7 @@ function useQuery({ query }) {
       .catch((error) =>
         setState({ error: error.message, data: null, fetching: false })
       );
-  });
+  }, [query]);
 
   return state;
 }

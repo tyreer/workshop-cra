@@ -1,4 +1,5 @@
 import { useReducer, useEffect, useRef } from "react";
+import isEqual from "lodash.isequal";
 
 export function useSetState(initialState) {
   return useReducer(
@@ -13,4 +14,13 @@ export function usePrevious(value) {
     ref.current = value;
   });
   return ref.current;
+}
+
+export function useDeepCompareEffect(callback, inputs) {
+  const previousInputs = usePrevious(inputs);
+  useEffect(() => {
+    if (!isEqual(previousInputs, inputs)) {
+      callback();
+    }
+  });
 }
