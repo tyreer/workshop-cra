@@ -1,10 +1,12 @@
-import { useReducer, useEffect } from "react";
+import { useEffect } from "react";
+import { useSetState } from "../hooks/customHooks";
 
 function BrokeQuery({ query, children }) {
-  const [state, setState] = useReducer(
-    (state, newState) => ({ ...state, ...newState }),
-    { fetching: false, data: null, error: null }
-  );
+  const [state, setState] = useSetState({
+    fetching: false,
+    data: null,
+    error: null,
+  });
 
   useEffect(() => {
     setState({ fetching: true });
@@ -25,7 +27,7 @@ function BrokeQuery({ query, children }) {
       .catch((error) =>
         setState({ error: error.message, data: null, fetching: false })
       );
-  }, [query]);
+  }, [query, setState]);
 
   return children(state);
 }

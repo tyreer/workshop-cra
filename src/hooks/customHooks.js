@@ -18,6 +18,7 @@ export function usePrevious(value) {
 
 export function useDeepCompareEffect(callback, inputs) {
   const previousInputs = usePrevious(inputs);
+
   useEffect(() => {
     if (!isEqual(previousInputs, inputs)) {
       callback();

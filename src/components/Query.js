@@ -1,6 +1,6 @@
 import { useSetState, useDeepCompareEffect } from "../hooks/customHooks";
 
-function useQuery({ query }) {
+function useQuery(query) {
   const [state, setState] = useSetState({
     fetching: false,
     data: null,
@@ -26,7 +26,7 @@ function useQuery({ query }) {
       .catch((error) =>
         setState({ error: error.message, data: null, fetching: false })
       );
-  }, [query]);
+  }, [query, setState]);
 
   return state;
 }
